@@ -5,19 +5,18 @@
     <RepositoryType>git</RepositoryType>
     <Description>Extension Method for RestSharp when using Moq to simplify unit testing!</Description>
     <Authors>William Zink</Authors>
-    <AssemblyOriginatorKeyFile>..\..\Moq.RestSharp.Helpers.snk.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Moq.RestSharp.Helpers.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
     <UpdateVersionProperties>true</UpdateVersionProperties>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <LangVersion>9</LangVersion>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="RestSharp" PrivateAssets="All"/>
     <PackageReference Include="Moq" PrivateAssets="All"/>
+    <PackageReference Include="Newtonsoft.Json" PrivateAssets="All"/>
   </ItemGroup>
 
   <PropertyGroup>

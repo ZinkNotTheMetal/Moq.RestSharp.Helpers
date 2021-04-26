@@ -8,7 +8,7 @@
     <Version>2021.4.26</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Moq.RestSharp.Helpers.snk</AssemblyOriginatorKeyFile>
-    <PackageTags>Moq RestSharp Extensions Helpers UnitTesting Builder Fake Mock Moq.RestSharp.Helpers</PackageTags>
+    <PackageTags>Moq RestSharp Extensions Helpers UnitTesting Builder Fake Mock Moq.RestSharp.Helpers ZinkNotTheMetal Zink</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
