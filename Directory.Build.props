@@ -14,9 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RestSharp" PrivateAssets="All"/>
-    <PackageReference Include="Moq" PrivateAssets="All"/>
-    <PackageReference Include="Newtonsoft.Json" PrivateAssets="All"/>
+    <PackageReference Include="RestSharp" Version="106.11.7" PrivateAssets="All"/>
+    <PackageReference Include="Moq" Version="4.16.1" PrivateAssets="All"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" PrivateAssets="All"/>
   </ItemGroup>
 
   <PropertyGroup>

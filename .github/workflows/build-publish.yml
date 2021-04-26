@@ -1,0 +1,15 @@
+name: Build and Publish to NuGet
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  nuget:
+    runs-on: windows-latest
+  steps:
+    - uses: actions/checkout@v2
+    - name: Create and push NuGet package
+      run: |
+        dotnet pack -c Release -o nuget
+        dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
