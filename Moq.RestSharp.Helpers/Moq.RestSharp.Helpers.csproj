@@ -9,6 +9,8 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Moq.RestSharp.Helpers.snk</AssemblyOriginatorKeyFile>
     <PackageTags>Moq RestSharp Extensions Helpers UnitTesting Builder Fake Mock Moq.RestSharp.Helpers ZinkNotTheMetal Zink</PackageTags>
+    <PackageId>MoqRestSharp.Helpers</PackageId>
+    <Product>MoqRestSharp.Helpers</Product>
   </PropertyGroup>
 
   <ItemGroup>
