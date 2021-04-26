@@ -7,8 +7,9 @@ on:
 jobs:
   nuget:
     runs-on: windows-latest
-  steps:
-    - uses: actions/checkout@v1
+    steps:
+    - uses: actions/checkout@v2
+    
     - name: Create and push NuGet package
       run: |
         dotnet pack -c Release -o nuget
