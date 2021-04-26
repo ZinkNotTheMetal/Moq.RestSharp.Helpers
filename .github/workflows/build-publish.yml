@@ -5,8 +5,21 @@ on:
       - main
 
 jobs:
-  nuget:
-    - name: Publish NuGet
-      uses: brandedoutcast/publish-nuget@v2.5.5
-      with:
-        PROJECT_FILE_PATH: Moq.RestSharp.Helpers/Moq.RestSharp.Helpers.csproj
+  publish-to-nuget:
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET 5.0
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.202
+      
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Publish Moq.RestSharp.Helpers to NuGet
+        uses: brandedoutcast/publish-nuget@v2.5.5
+        with:
+          PROJECT_FILE_PATH: Moq.RestSharp.Helpers/Moq.RestSharp.Helpers.csproj
