@@ -6,6 +6,8 @@ on:
 
 jobs:
   publish-to-nuget:
+    runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET 5.0
