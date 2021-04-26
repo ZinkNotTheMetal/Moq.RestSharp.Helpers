@@ -1,0 +1,34 @@
+﻿<Project>
+  <PropertyGroup>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/ZinkNotTheMetal/Moq.RestSharp.Helpers.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Description>Extension Method for RestSharp when using Moq to simplify unit testing!</Description>
+    <Authors>William Zink</Authors>
+    <AssemblyOriginatorKeyFile>..\..\Moq.RestSharp.Helpers.snk.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition="'$(OS)' != 'Windows_NT'">true</PublicSign>
+    <UpdateVersionProperties>true</UpdateVersionProperties>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <LangVersion>9</LangVersion>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RestSharp" PrivateAssets="All"/>
+    <PackageReference Include="Moq" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <Target Name="CustomVersion" AfterTargets="MinVer">
+    <PropertyGroup>
+      <FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)</FileVersion>
+      <AssemblyVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)</AssemblyVersion>
+    </PropertyGroup>
+  </Target>
+</Project>
