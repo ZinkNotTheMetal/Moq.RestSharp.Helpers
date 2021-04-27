@@ -3,14 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2021.4.26</AssemblyVersion>
-    <FileVersion>2021.4.26</FileVersion>
-    <Version>2021.4.26</Version>
+    <AssemblyVersion>2021.4.27</AssemblyVersion>
+    <FileVersion>2021.4.27</FileVersion>
+    <Version>2021.4.27</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Moq.RestSharp.Helpers.snk</AssemblyOriginatorKeyFile>
     <PackageTags>Moq RestSharp Extensions Helpers UnitTesting Builder Fake Mock Moq.RestSharp.Helpers ZinkNotTheMetal Zink</PackageTags>
     <PackageId>MoqRestSharp.Helpers</PackageId>
     <Product>MoqRestSharp.Helpers</Product>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

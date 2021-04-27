@@ -18,7 +18,7 @@ namespace Moq.RestSharp.Helpers
 
         public static HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
 
-        #region With
+        #region Rest Client Helpers
 
         /// <summary>
         /// Setting up the Moq RestSharp extension helper.
@@ -47,7 +47,7 @@ namespace Moq.RestSharp.Helpers
         #endregion
 
 
-        # region Additional Properties
+        # region Response Properties
 
         /// <summary>
         /// Use when you want to override the ResponseStatus of the &lt;see cref="IRestResponse"/&gt;.
@@ -160,7 +160,7 @@ namespace Moq.RestSharp.Helpers
         #endregion
 
 
-        #region Response
+        #region Response Returns
 
         /// <summary>
         /// Used when the API just returns you a plain JSON string and you are not casting it to a specific object.
