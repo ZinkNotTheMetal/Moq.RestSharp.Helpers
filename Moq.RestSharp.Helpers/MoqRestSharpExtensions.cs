@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Threading;
 using Newtonsoft.Json;
 using RestSharp;
@@ -244,6 +245,9 @@ namespace Moq.RestSharp.Helpers
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
+                    response
+                        .Setup(s => s.Headers)
+                        .Returns(request.Parameters?.Where(x => x.Type == ParameterType.HttpHeader).ToList());
                 })
                 .Returns(response.Object);
 
@@ -287,6 +291,9 @@ namespace Moq.RestSharp.Helpers
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
+                    response
+                        .Setup(s => s.Headers)
+                        .Returns(request.Parameters?.Where(x => x.Type == ParameterType.HttpHeader).ToList());
                 })
                 .Returns(response.Object);
 
@@ -329,6 +336,9 @@ namespace Moq.RestSharp.Helpers
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
+                    response
+                        .Setup(s => s.Headers)
+                        .Returns(request.Parameters?.Where(x => x.Type == ParameterType.HttpHeader).ToList());
                 })
                 .ReturnsAsync(response.Object);
 
@@ -372,6 +382,9 @@ namespace Moq.RestSharp.Helpers
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
+                    response
+                        .Setup(s => s.Headers)
+                        .Returns(request.Parameters?.Where(x => x.Type == ParameterType.HttpHeader).ToList());
                 })
                 .ReturnsAsync(response.Object);
 

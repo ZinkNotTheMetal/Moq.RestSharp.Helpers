@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2021.4.27</AssemblyVersion>
-    <FileVersion>2021.4.27</FileVersion>
+    <AssemblyVersion>2021.4.28</AssemblyVersion>
+    <FileVersion>2021.4.28</FileVersion>
     <Version>2021.4.27</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Moq.RestSharp.Helpers.snk</AssemblyOriginatorKeyFile>
