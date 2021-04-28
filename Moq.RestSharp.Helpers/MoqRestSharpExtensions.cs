@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using Newtonsoft.Json;
@@ -18,6 +20,8 @@ namespace Moq.RestSharp.Helpers
         public static ResponseStatus ResponseStatus { get; set; } = ResponseStatus.None;
 
         public static HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
+
+        public static string Server { get; set; }
 
         #region Rest Client Helpers
 
@@ -134,6 +138,18 @@ namespace Moq.RestSharp.Helpers
         /// <summary>
         /// Used when you want the API to return you a specific error message.
         /// </summary>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse"/> that will be returned from the builder pattern.</param>
+        /// <param name="errorMessage" cref="string">Error message that you want the mocked API to return for you.</param>
+        /// <returns cref="Mock{IRestResponse}">The response that you want back from the mocked API</returns>
+        public static Mock<IRestResponse> WithErrorMessage(this Mock<IRestResponse> response, string errorMessage)
+        {
+            response.Setup(s => s.ErrorMessage).Returns(errorMessage);
+            return response;
+        }
+
+        /// <summary>
+        /// Used when you want the API to return you a specific error message.
+        /// </summary>
         /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
         /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
         /// <param name="errorMessage" cref="string">Error message that you want the mocked API to return for you.</param>
@@ -141,20 +157,125 @@ namespace Moq.RestSharp.Helpers
         public static Mock<IRestResponse<T>> WithErrorMessage<T>(this Mock<IRestResponse<T>> response, string errorMessage)
         {
             response.Setup(s => s.ErrorMessage).Returns(errorMessage);
-            
+            return response;
+        }
+
+        #endregion
+
+        #region Content Encoding
+
+        /// <summary>
+        /// Used when you want the API to return you a specific Content Encoding
+        /// </summary>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse"/> that will be returned from the builder pattern.</param>
+        /// <param name="contentEncoding" cref="string">The Content Encoding string that you want the mocked API to return for you.</param>
+        /// <returns cref="Mock{IRestResponse}">The response that you want back from the mocked API</returns>
+        public static Mock<IRestResponse> WithContentEncoding(this Mock<IRestResponse> response, string contentEncoding)
+        {
+            response.Setup(s => s.ContentEncoding).Returns(contentEncoding);
             return response;
         }
 
         /// <summary>
-        /// Used when you want the API to return you a specific error message.
+        /// Used when you want the API to return you a specific Content Encoding
+        /// </summary>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="contentEncoding" cref="string">The Content Encoding string that you want the mocked API to return for you.</param>
+        /// <returns>The response that you want back from the mocked API</returns>
+        public static Mock<IRestResponse<T>> WithContentEncoding<T>(this Mock<IRestResponse<T>> response, string contentEncoding)
+        {
+            response.Setup(s => s.ContentEncoding).Returns(contentEncoding);
+            return response;
+        }
+
+        #endregion
+
+        #region Content Type
+
+        /// <summary>
+        /// Used when you want the API to return you a specific Content Ctype
         /// </summary>
         /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse"/> that will be returned from the builder pattern.</param>
-        /// <param name="errorMessage" cref="string">Error message that you want the mocked API to return for you.</param>
+        /// <param name="contentType" cref="string">The Content Type string that you want the mocked API to return for you.</param>
         /// <returns cref="Mock{IRestResponse}">The response that you want back from the mocked API</returns>
-        public static Mock<IRestResponse> WithErrorMessage(this Mock<IRestResponse> response, string errorMessage)
+        public static Mock<IRestResponse> WithContentType(this Mock<IRestResponse> response, string contentType)
         {
-            response.Setup(s => s.ErrorMessage).Returns(errorMessage);
+            response.Setup(s => s.ContentType).Returns(contentType);
+            return response;
+        }
 
+        /// <summary>
+        /// Used when you want the API to return you a specific Content Type
+        /// </summary>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="contentType" cref="string">The Content Type string that you want the mocked API to return for you.</param>
+        /// <returns>The response that you want back from the mocked API</returns>
+        public static Mock<IRestResponse<T>> WithContentType<T>(this Mock<IRestResponse<T>> response, string contentType)
+        {
+            response.Setup(s => s.ContentEncoding).Returns(contentType);
+            return response;
+        }
+
+
+        #endregion
+
+        #region Server
+
+        /// <summary>
+        /// Used when you want the API to return you a specific server on the response object
+        /// </summary>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="server" cref="string">The Server string that you want the mocked API to return for you.</param>
+        /// <returns>The response that you want back from the mocked API</returns>
+        public static Mock<IRestResponse> WithServer(this Mock<IRestResponse> response, string server)
+        {
+            Server = server;
+            response.Setup(s => s.Server).Returns(server);
+            return response;
+        }
+
+        /// <summary>
+        /// Used when you want the API to return you a specific server on the response object
+        /// </summary>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="server" cref="string">The Server string that you want the mocked API to return for you.</param>
+        /// <returns>The response that you want back from the mocked API</returns>
+        public static Mock<IRestResponse<T>> WithServer<T>(this Mock<IRestResponse<T>> response, string server)
+        {
+            Server = server;
+            response.Setup(s => s.Server).Returns(server);
+            return response;
+        }
+
+        #endregion
+
+        #region Protocol Version
+
+        /// <summary>
+        /// Used when you want the API to return you a specific server on the response object
+        /// </summary>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="protocolVersion" cref="Version">Not all underlying frameworks support this but this will return you a protocol version on the response.</param>
+        /// <returns>The response that you want back from the mocked API</returns>
+        public static Mock<IRestResponse> WithProtocolVersion(this Mock<IRestResponse> response, Version protocolVersion)
+        {
+            response.Setup(s => s.ProtocolVersion).Returns(protocolVersion);
+            return response;
+        }
+
+        /// <summary>
+        /// Used when you want the API to return you a specific server on the response object
+        /// </summary>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="protocolVersion" cref="Version">Not all underlying frameworks support this but this will return you a protocol version on the response.</param>
+        /// <returns>The response that you want back from the mocked API</returns>
+        public static Mock<IRestResponse<T>> WithProtocolVersion<T>(this Mock<IRestResponse<T>> response, Version protocolVersion)
+        {
+            response.Setup(s => s.ProtocolVersion).Returns(protocolVersion);
             return response;
         }
 
@@ -242,12 +363,11 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.Execute(It.IsAny<IRestRequest>()))
                 .Callback<IRestRequest>((request) =>
                 {
-                    response
+                    if (string.IsNullOrWhiteSpace(Server) && string.IsNullOrWhiteSpace(MockRestClient.Object.BaseUrl?.ToString())) response.Setup(s => s.Server).Returns(MockRestClient.Object.BaseUrl.ToString);
+
+                        response
                         .Setup(s => s.Request)
                         .Returns(request);
-                    response
-                        .Setup(s => s.Headers)
-                        .Returns(request.Parameters?.Where(x => x.Type == ParameterType.HttpHeader).ToList());
                 })
                 .Returns(response.Object);
 
@@ -288,12 +408,11 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.Execute<T>(It.IsAny<IRestRequest>()))
                 .Callback<IRestRequest>((request) =>
                 {
+                    if (string.IsNullOrWhiteSpace(Server) && string.IsNullOrWhiteSpace(MockRestClient.Object.BaseUrl?.ToString())) response.Setup(s => s.Server).Returns(MockRestClient.Object.BaseUrl.ToString);
+
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
-                    response
-                        .Setup(s => s.Headers)
-                        .Returns(request.Parameters?.Where(x => x.Type == ParameterType.HttpHeader).ToList());
                 })
                 .Returns(response.Object);
 
@@ -333,12 +452,11 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.ExecuteAsync(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
                 {
+                    if (string.IsNullOrWhiteSpace(Server) && string.IsNullOrWhiteSpace(MockRestClient.Object.BaseUrl?.ToString())) response.Setup(s => s.Server).Returns(MockRestClient.Object.BaseUrl.ToString);
+
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
-                    response
-                        .Setup(s => s.Headers)
-                        .Returns(request.Parameters?.Where(x => x.Type == ParameterType.HttpHeader).ToList());
                 })
                 .ReturnsAsync(response.Object);
 
@@ -379,12 +497,11 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.ExecuteAsync<T>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
                 {
+                    if (string.IsNullOrWhiteSpace(Server) && string.IsNullOrWhiteSpace(MockRestClient.Object.BaseUrl?.ToString())) response.Setup(s => s.Server).Returns(MockRestClient.Object.BaseUrl.ToString);
+
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
-                    response
-                        .Setup(s => s.Headers)
-                        .Returns(request.Parameters?.Where(x => x.Type == ParameterType.HttpHeader).ToList());
                 })
                 .ReturnsAsync(response.Object);
 

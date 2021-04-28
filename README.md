@@ -142,6 +142,11 @@ public class Person
 * `WithResponseStatus(ResponseStatus responseStatus)` - IRestResponse will return you the passed in RestSharp Response Status if you would like to override it
 * `WithStatusCode(HttpStatusCode statusCode)` - IRestResponse will return you the passed in HttpStatusCode
 * `WithErrorMessage(string errorMessage)` - IRestResponse will return you the passed in error message
+* `WithContentEncoding(string contentEncoding)` - IRestResponse will return you the passed in Content Encoding
+* `WithContentType(string contentType)` - IRestResponse will return you the passed in Content Type
+* `WithServer(string server)` - IRestResponse will return you the passed in server, if you do not declare it it will default to BaseUrl on the Mocked Object
+* `WithProtocolVersion(Version protocolVersion)` - IRestResponse doesn't always support this but useful if you have some error handling on TLS 1.0 vs 1.1 and so on.
+
 
 If you are not using the typed MockApiRequest()
 * `ReturnsJsonAsString(string json)` - IRestResponse will return you the content of the string being passed in
