@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using Newtonsoft.Json;
@@ -20,8 +18,6 @@ namespace Moq.RestSharp.Helpers
         public static ResponseStatus ResponseStatus { get; set; } = ResponseStatus.None;
 
         public static HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
-
-        public static string Server { get; set; }
 
         #region Rest Client Helpers
 
@@ -99,6 +95,7 @@ namespace Moq.RestSharp.Helpers
             if (ResponseStatus == ResponseStatus.None)
             {
                 response.Setup(s => s.IsSuccessful).Returns(IsSuccessCode(statusCode));
+                response.Setup(s => s.ResponseStatus).Returns(ResponseStatus.Completed);
             }
             else
             {
@@ -125,6 +122,7 @@ namespace Moq.RestSharp.Helpers
             if (ResponseStatus == ResponseStatus.None)
             {
                 response.Setup(s => s.IsSuccessful).Returns(IsSuccessCode(statusCode));
+                response.Setup(s => s.ResponseStatus).Returns(ResponseStatus.Completed);
             }
             else
             {
@@ -157,6 +155,18 @@ namespace Moq.RestSharp.Helpers
         public static Mock<IRestResponse<T>> WithErrorMessage<T>(this Mock<IRestResponse<T>> response, string errorMessage)
         {
             response.Setup(s => s.ErrorMessage).Returns(errorMessage);
+            return response;
+        }
+
+        public static Mock<IRestResponse> WithErrorException(this Mock<IRestResponse> response, Exception exception)
+        {
+            response.Setup(s => s.ErrorException).Returns(exception);
+            return response;
+        }
+
+        public static Mock<IRestResponse<T>> WithErrorException<T>(this Mock<IRestResponse<T>> response, Exception exception)
+        {
+            response.Setup(s => s.ErrorException).Returns(exception);
             return response;
         }
 
@@ -214,7 +224,7 @@ namespace Moq.RestSharp.Helpers
         /// <returns>The response that you want back from the mocked API</returns>
         public static Mock<IRestResponse<T>> WithContentType<T>(this Mock<IRestResponse<T>> response, string contentType)
         {
-            response.Setup(s => s.ContentEncoding).Returns(contentType);
+            response.Setup(s => s.ContentType).Returns(contentType);
             return response;
         }
 
@@ -231,7 +241,6 @@ namespace Moq.RestSharp.Helpers
         /// <returns>The response that you want back from the mocked API</returns>
         public static Mock<IRestResponse> WithServer(this Mock<IRestResponse> response, string server)
         {
-            Server = server;
             response.Setup(s => s.Server).Returns(server);
             return response;
         }
@@ -245,7 +254,6 @@ namespace Moq.RestSharp.Helpers
         /// <returns>The response that you want back from the mocked API</returns>
         public static Mock<IRestResponse<T>> WithServer<T>(this Mock<IRestResponse<T>> response, string server)
         {
-            Server = server;
             response.Setup(s => s.Server).Returns(server);
             return response;
         }
@@ -363,9 +371,7 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.Execute(It.IsAny<IRestRequest>()))
                 .Callback<IRestRequest>((request) =>
                 {
-                    if (string.IsNullOrWhiteSpace(Server) && string.IsNullOrWhiteSpace(MockRestClient.Object.BaseUrl?.ToString())) response.Setup(s => s.Server).Returns(MockRestClient.Object.BaseUrl.ToString);
-
-                        response
+                    response
                         .Setup(s => s.Request)
                         .Returns(request);
                 })
@@ -408,8 +414,6 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.Execute<T>(It.IsAny<IRestRequest>()))
                 .Callback<IRestRequest>((request) =>
                 {
-                    if (string.IsNullOrWhiteSpace(Server) && string.IsNullOrWhiteSpace(MockRestClient.Object.BaseUrl?.ToString())) response.Setup(s => s.Server).Returns(MockRestClient.Object.BaseUrl.ToString);
-
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
@@ -452,8 +456,6 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.ExecuteAsync(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
                 {
-                    if (string.IsNullOrWhiteSpace(Server) && string.IsNullOrWhiteSpace(MockRestClient.Object.BaseUrl?.ToString())) response.Setup(s => s.Server).Returns(MockRestClient.Object.BaseUrl.ToString);
-
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
@@ -497,8 +499,6 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.ExecuteAsync<T>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
                 {
-                    if (string.IsNullOrWhiteSpace(Server) && string.IsNullOrWhiteSpace(MockRestClient.Object.BaseUrl?.ToString())) response.Setup(s => s.Server).Returns(MockRestClient.Object.BaseUrl.ToString);
-
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
