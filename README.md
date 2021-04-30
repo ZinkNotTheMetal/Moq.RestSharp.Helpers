@@ -155,8 +155,14 @@ If you are using the typed MockApiRequest\<T\>
 * `Returns<T>(T returnValue)` - IRestResponse will return you the content as json and data object you pass in 
 
 ## Finally mock the call using
-* `MockExecute()` - will return you IRestResponse if you want to query the request
-* `MockExecuteAsync()` - will return you IRestResponse if you want to query the request
+* `MockExecute()`
+* `MockExecuteAsync()`
+* `MockExecuteAsGet(string httpMethod)`
+* `MockExecuteAsPost(string httpMethod)`
+* `MockExecuteGetAsync()`
+* `MockExecutePostAsync()`
+
+All will return you the IRestResponse (which will have the IRestRequest bound in the response for you!)
 
 And that's it!
 

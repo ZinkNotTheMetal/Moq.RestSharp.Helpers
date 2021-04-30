@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2021.4.29</AssemblyVersion>
-    <FileVersion>2021.4.29</FileVersion>
-    <Version>2021.4.29</Version>
+    <AssemblyVersion>2021.4.30</AssemblyVersion>
+    <FileVersion>2021.4.30</FileVersion>
+    <Version>2021.4.30</Version>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Moq.RestSharp.Helpers.snk</AssemblyOriginatorKeyFile>
     <PackageTags>Moq RestSharp Extensions Helpers UnitTesting Builder Fake Mock Moq.RestSharp.Helpers ZinkNotTheMetal Zink</PackageTags>

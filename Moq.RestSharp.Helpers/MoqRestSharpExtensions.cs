@@ -336,7 +336,7 @@ namespace Moq.RestSharp.Helpers
         #endregion
 
 
-        #region Execute
+        #region Base Execute
 
         /// <summary>
         /// Used when ready to build and mock the RestClient API call
@@ -508,6 +508,374 @@ namespace Moq.RestSharp.Helpers
             return response.Object;
         }
 
+
+        #endregion
+
+        #region ExecuteGetAsync
+
+        /// <summary>
+        /// Used when ready to build and mock the RestClient API when you use ExecuteAsGet call
+        /// </summary>
+        /// <remarks>Use when you are using RestClient.Execute(request)</remarks>
+        /// <example>
+        /// <code>
+        /// //In your testing class you can get this response and query the request
+        /// public class Test
+        /// {
+        ///     public void Test_One()
+        ///     {
+        ///         var response = MockRestClient
+        ///             .MockApiResponse()
+        ///             .WithStatusCode(HttpStatusCode.Accepted)
+        ///             .ReturnsJsonString("ok")
+        ///             .MockExecuteGetAsync()
+        /// 
+        ///         response.Request.Method.ShouldBe(GET)
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse"/> that will be returned from the builder pattern.</param>
+        /// <returns cref="IRestResponse">The RestSharp.Response object after the work has been complete</returns>
+        public static IRestResponse MockExecuteGetAsync(this Mock<IRestResponse> response)
+        {
+            //If not set to Ok specifically, just default to Ok
+            if (StatusCode == HttpStatusCode.OK) response.Setup(s => s.StatusCode).Returns(StatusCode);
+
+            MockRestClient
+                .Setup(s => s.ExecuteGetAsync(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
+                .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
+                {
+                    response
+                        .Setup(s => s.Request)
+                        .Returns(request);
+                })
+                .ReturnsAsync(response.Object);
+
+            return response.Object;
+        }
+
+        /// <summary>
+        /// Used when ready to build and mock the RestClient API call
+        /// </summary>
+        /// <remarks>Use when you are using RestClient.ExecuteAsync&#60;MyObject&#62;(request)</remarks>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <example>
+        /// <code>
+        /// //In your testing class you can get this response and query the request
+        /// public class Test
+        /// {
+        ///     public void Test_One()
+        ///     {
+        ///         var response = MockRestClient
+        ///             .MockApiResponse&#60;MyObject&#62;()
+        ///             .WithStatusCode(HttpStatusCode.Accepted)
+        ///             .Returns(new &#60;MyObject&#62;())
+        ///             .MockExecuteGetAsync()
+        ///
+        ///         response.Request.Method.ShouldBe(GET)
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <returns cref="IRestResponse">The RestSharp.Response object after the work has been complete</returns>
+        public static IRestResponse MockExecuteGetAsync<T>(this Mock<IRestResponse<T>> response)
+        {
+            //If not set to Ok specifically, just default to Ok
+            if (StatusCode == HttpStatusCode.OK) response.Setup(s => s.StatusCode).Returns(StatusCode);
+
+            MockRestClient
+                .Setup(s => s.ExecuteGetAsync<T>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
+                .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
+                {
+                    response
+                        .Setup(s => s.Request)
+                        .Returns(request);
+                })
+                .ReturnsAsync(response.Object);
+
+            return response.Object;
+        }
+
+        #endregion
+
+
+        #region ExecutePostAsync
+
+        /// <summary>
+        /// Used when ready to build and mock the RestClient API when you use ExecutePostAsync call
+        /// </summary>
+        /// <remarks>Use when you are using RestClient.Execute(request)</remarks>
+        /// <example>
+        /// <code>
+        /// //In your testing class you can get this response and query the request
+        /// public class Test
+        /// {
+        ///     public void Test_One()
+        ///     {
+        ///         var response = MockRestClient
+        ///             .MockApiResponse()
+        ///             .WithStatusCode(HttpStatusCode.Accepted)
+        ///             .ReturnsJsonString("ok")
+        ///             .MockExecutePostAsync()
+        ///
+        ///         response.Request.Method.ShouldBe(GET)
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse"/> that will be returned from the builder pattern.</param>
+        /// <returns cref="IRestResponse">The RestSharp.Response object after the work has been complete</returns>
+        public static IRestResponse MockExecutePostAsync(this Mock<IRestResponse> response)
+        {
+            //If not set to Ok specifically, just default to Ok
+            if (StatusCode == HttpStatusCode.OK) response.Setup(s => s.StatusCode).Returns(StatusCode);
+
+            MockRestClient
+                .Setup(s => s.ExecutePostAsync(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
+                .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
+                {
+                    request.Method = Method.POST;
+                    response
+                        .Setup(s => s.Request)
+                        .Returns(request);
+                })
+                .ReturnsAsync(response.Object);
+
+            return response.Object;
+        }
+
+        /// <summary>
+        /// Used when ready to build and mock the RestClient API when you use ExecutePostAsync call
+        /// </summary>
+        /// <remarks>Use when you are using RestClient.ExecuteAsync&#60;MyObject&#62;(request)</remarks>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <example>
+        /// <code>
+        /// //In your testing class you can get this response and query the request
+        /// public class Test
+        /// {
+        ///     public void Test_One()
+        ///     {
+        ///         var response = MockRestClient
+        ///             .MockApiResponse&#60;MyObject&#62;()
+        ///             .WithStatusCode(HttpStatusCode.Accepted)
+        ///             .Returns(new &#60;MyObject&#62;())
+        ///             .MockExecutePostAsync()
+        ///
+        ///         response.Request.Method.ShouldBe(GET)
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <returns cref="IRestResponse">The RestSharp.Response object after the work has been complete</returns>
+        public static IRestResponse MockExecutePostAsync<T>(this Mock<IRestResponse<T>> response)
+        {
+            //If not set to Ok specifically, just default to Ok
+            if (StatusCode == HttpStatusCode.OK) response.Setup(s => s.StatusCode).Returns(StatusCode);
+
+            MockRestClient
+                .Setup(s => s.ExecutePostAsync<T>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
+                .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
+                {
+                    request.Method = Method.POST;
+
+                    response
+                        .Setup(s => s.Request)
+                        .Returns(request);
+                })
+                .ReturnsAsync(response.Object);
+
+            return response.Object;
+        }
+
+        #endregion
+
+        #region ExecuteAsGet
+
+        /// <summary>
+        /// Used when ready to build and mock the RestClient API when you use ExecuteAsGet call
+        /// </summary>
+        /// <remarks>Use when you are using RestClient.ExecuteAsync&#60;MyObject&#62;(request)</remarks>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <example>
+        /// <code>
+        /// //In your testing class you can get this response and query the request
+        /// public class Test
+        /// {
+        ///     public void Test_One()
+        ///     {
+        ///         var response = MockRestClient
+        ///             .MockApiResponse&#60;MyObject&#62;()
+        ///             .WithStatusCode(HttpStatusCode.Accepted)
+        ///             .Returns(new &#60;MyObject&#62;())
+        ///             .ExecuteAsGet("/posts")
+        /// 
+        ///         response.Request.Method.ShouldBe(GET)
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="httpMethod">HTTP Method you are passing to ExecuteAsGet</param>
+        /// <returns cref="IRestResponse">The RestSharp.Response object after the work has been complete</returns>
+        public static IRestResponse MockExecuteAsGet<T>(this Mock<IRestResponse<T>> response, string httpMethod)
+        {
+            //If not set to Ok specifically, just default to Ok
+            if (StatusCode == HttpStatusCode.OK) response.Setup(s => s.StatusCode).Returns(StatusCode);
+
+            MockRestClient
+                .Setup(s => s.ExecuteAsGet<T>(It.IsAny<IRestRequest>(), httpMethod))
+                .Callback<IRestRequest, string>((request, method) =>
+                {
+                    response
+                        .Setup(s => s.Request)
+                        .Returns(request);
+                })
+                .Returns(response.Object);
+
+            return response.Object;
+        }
+
+        /// <summary>
+        /// Used when ready to build and mock the RestClient API when you use ExecuteAsGet call
+        /// </summary>
+        /// <remarks>Use when you are using RestClient.ExecuteAsync&#60;MyObject&#62;(request)</remarks>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <example>
+        /// <code>
+        /// //In your testing class you can get this response and query the request
+        /// public class Test
+        /// {
+        ///     public void Test_One()
+        ///     {
+        ///         var response = MockRestClient
+        ///             .MockApiResponse&#60;MyObject&#62;()
+        ///             .WithStatusCode(HttpStatusCode.Accepted)
+        ///             .Returns(new &#60;MyObject&#62;())
+        ///             .ExecuteAsGet("/posts")
+        ///
+        ///         response.Request.Method.ShouldBe(GET)
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="httpMethod">HTTP Method you are passing to ExecuteAsGet</param>
+        /// <returns cref="IRestResponse">The RestSharp.Response object after the work has been complete</returns>
+        public static IRestResponse MockExecuteAsGet(this Mock<IRestResponse> response, string httpMethod)
+        {
+            //If not set to Ok specifically, just default to Ok
+            if (StatusCode == HttpStatusCode.OK) response.Setup(s => s.StatusCode).Returns(StatusCode);
+
+            MockRestClient
+                .Setup(s => s.ExecuteAsGet(It.IsAny<IRestRequest>(), httpMethod))
+                .Callback<IRestRequest, string>((request, method) =>
+                {
+                    response
+                        .Setup(s => s.Request)
+                        .Returns(request);
+                })
+                .Returns(response.Object);
+
+            return response.Object;
+        }
+
+        #endregion
+
+        #region ExecuteAsPost
+
+        /// <summary>
+        /// Used when ready to build and mock the RestClient API when you use ExecuteAsPost call
+        /// </summary>
+        /// <remarks>Use when you are using RestClient.ExecuteAsync&#60;MyObject&#62;(request)</remarks>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <example>
+        /// <code>
+        /// //In your testing class you can get this response and query the request
+        /// public class Test
+        /// {
+        ///     public void Test_One()
+        ///     {
+        ///         var response = MockRestClient
+        ///             .MockApiResponse&#60;MyObject&#62;()
+        ///             .WithStatusCode(HttpStatusCode.Accepted)
+        ///             .Returns(new &#60;MyObject&#62;())
+        ///             .MockExecuteAsPost("/posts")
+        ///
+        ///         response.Request.Method.ShouldBe(GET)
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="httpMethod">HTTP Method you are passing to MockExecuteAsPost</param>
+        /// <returns cref="IRestResponse">The RestSharp.Response object after the work has been complete</returns>
+        public static IRestResponse MockExecuteAsPost(this Mock<IRestResponse> response, string httpMethod)
+        {
+            //If not set to Ok specifically, just default to Ok
+            if (StatusCode == HttpStatusCode.OK) response.Setup(s => s.StatusCode).Returns(StatusCode);
+
+            MockRestClient
+                .Setup(s => s.ExecuteAsPost(It.IsAny<IRestRequest>(), httpMethod))
+                .Callback<IRestRequest, string>((request, method) =>
+                {
+                    request.Method = Method.POST;
+
+                    response
+                        .Setup(s => s.Request)
+                        .Returns(request);
+                })
+                .Returns(response.Object);
+
+            return response.Object;
+        }
+
+        /// <summary>
+        /// Used when ready to build and mock the RestClient API when you use ExecuteAsPost call
+        /// </summary>
+        /// <remarks>Use when you are using RestClient.ExecuteAsync&#60;MyObject&#62;(request)</remarks>
+        /// <typeparam name="T">Generic class that you want the RestResponse to return you</typeparam>
+        /// <example>
+        /// <code>
+        /// //In your testing class you can get this response and query the request
+        /// public class Test
+        /// {
+        ///     public void Test_One()
+        ///     {
+        ///         var response = MockRestClient
+        ///             .MockApiResponse&#60;MyObject&#62;()
+        ///             .WithStatusCode(HttpStatusCode.Accepted)
+        ///             .Returns(new &#60;MyObject&#62;())
+        ///             .ExecuteAsGet("/posts")
+        ///
+        ///         response.Request.Method.ShouldBe(GET)
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <param name="response">Extension method on the <see cref="Mock"/> of <see cref="IRestResponse{T}"/> that will be returned from the builder pattern.</param>
+        /// <param name="httpMethod">HTTP Method you are passing to MockExecuteAsPost</param>
+        /// <returns cref="IRestResponse">The RestSharp.Response object after the work has been complete</returns>
+        public static IRestResponse MockExecuteAsPost<T>(this Mock<IRestResponse<T>> response, string httpMethod)
+        {
+            //If not set to Ok specifically, just default to Ok
+            if (StatusCode == HttpStatusCode.OK) response.Setup(s => s.StatusCode).Returns(StatusCode);
+
+            MockRestClient
+                .Setup(s => s.ExecuteAsPost<T>(It.IsAny<IRestRequest>(), httpMethod))
+                .Callback<IRestRequest, string>((request, method) =>
+                {
+                    response
+                        .Setup(s => s.Request)
+                        .Returns(request);
+                })
+                .Returns(response.Object);
+
+            return response.Object;
+        }
 
         #endregion
 
