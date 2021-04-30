@@ -26,9 +26,4 @@
     <ProjectReference Include="..\Moq.RestSharp.Helpers\Moq.RestSharp.Helpers.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MockExecuteGetAsync\" />
-    <Folder Include="MockExecutePostAsync\" />
-  </ItemGroup>
-
 </Project>

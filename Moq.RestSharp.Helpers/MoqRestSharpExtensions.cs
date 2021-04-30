@@ -636,6 +636,7 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.ExecutePostAsync(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
                 {
+                    request.Method = Method.POST;
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
@@ -679,6 +680,8 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.ExecutePostAsync<T>(It.IsAny<IRestRequest>(), It.IsAny<CancellationToken>()))
                 .Callback<IRestRequest, CancellationToken>((request, cancellationToken) =>
                 {
+                    request.Method = Method.POST;
+
                     response
                         .Setup(s => s.Request)
                         .Returns(request);
@@ -819,7 +822,7 @@ namespace Moq.RestSharp.Helpers
                 .Setup(s => s.ExecuteAsPost(It.IsAny<IRestRequest>(), httpMethod))
                 .Callback<IRestRequest, string>((request, method) =>
                 {
-        
+                    request.Method = Method.POST;
 
                     response
                         .Setup(s => s.Request)

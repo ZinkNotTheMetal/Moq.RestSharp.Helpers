@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
@@ -84,6 +85,50 @@ namespace Examples
             var response = _restClient.ExecuteAsPost<CategorySuccess>(restRequest, "POST");
             return response.Data;
         }
+
+        public async Task<Category> GetCategoryInformation(int categoryId)
+        {
+            _restClient.BaseUrl = new Uri("http://fakeapi.jsonparseronline.com");
+            var restRequest = new RestRequest($"/category/{categoryId}");
+            var response = await _restClient.ExecuteGetAsync<Category>(restRequest);
+            return response.Data;
+        }
+
+        public async Task<User> AddUser(User user)
+        {
+            _restClient.BaseUrl = new Uri("http://fakeapi.jsonparseronline.com");
+            var request = new RestRequest("/user/add");
+            request.AddJsonBody(new {user});
+            var response = await _restClient.ExecutePostAsync<User>(request);
+            return response.Data;
+        }
+
+        public async Task<bool> AddUserWithoutResponse(User user)
+        {
+            _restClient.BaseUrl = new Uri("http://fakeapi.jsonparseronline.com");
+            var request = new RestRequest("/user/add");
+            request.AddJsonBody(new { user });
+            var response = await _restClient.ExecutePostAsync(request);
+            return response.StatusCode == HttpStatusCode.Accepted;
+        }
+
+        public async Task<Profile> GetProfile()
+        {
+            _restClient.BaseUrl = new Uri("http://fakeapi.jsonparseronline.com");
+            var request = new RestRequest("/profile");
+            var response = await _restClient.ExecuteGetAsync(request);
+
+            return JsonConvert.DeserializeObject<Profile>(response.Content);
+        }
+    }
+
+    public class Profile
+    {
+        public int Id { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
     }
 
     public class Post
@@ -119,6 +164,11 @@ namespace Examples
         public bool Success { get; set; }
         public int Id { get; set; }
         public long CreatedAt { get; set; }
+    }
 
+    public class Category
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

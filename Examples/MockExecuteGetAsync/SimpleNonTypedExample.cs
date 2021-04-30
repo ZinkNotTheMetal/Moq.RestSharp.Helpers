@@ -1,11 +1,12 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 using Moq;
 using Moq.RestSharp.Helpers;
 using RestSharp;
 using Shouldly;
 using Xunit;
 
-namespace Examples.MockExecuteAsPost
+namespace Examples.MockExecuteGetAsync
 {
     public class SimpleNonTypedExample
     {
@@ -20,22 +21,24 @@ namespace Examples.MockExecuteAsPost
         }
 
         [Fact]
-        public void NonTypedExample_ReturnsSimpleJsonString_ShouldReturnRequestAndResponse()
+        public async Task TypedExample_ShouldReturnRequestAndResponse()
         {
-            var comment = "fake comment here";
-
             var response = MockRestClient
                 .MockApiResponse()
                 .WithStatusCode(HttpStatusCode.OK)
-                .MockExecuteAsPost("POST");
+                .ReturnsJsonString("{ \"id\": 1, \"firstName\": \"Ut\", \"lastName\": \"consectetur\" }")
+                .MockExecuteGetAsync();
 
-            FakePostsApi.PostComment(comment);
+            var profile = await FakePostsApi.GetProfile();
 
             // Using Shouldly
             response.StatusCode.ShouldBe(HttpStatusCode.OK);
             response.IsSuccessful.ShouldBe(true);
-            response.Request.Method.ShouldBe(Method.POST);
-            response.Request.Resource.ShouldBe("/comments");
+            response.Content.ShouldNotBeNull();
+            response.Request.Method.ShouldBe(Method.GET);
+            response.Request.Resource.ShouldBe("/profile");
+
+            profile.ShouldNotBeNull();
         }
     }
 }
